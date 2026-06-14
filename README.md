@@ -1,59 +1,204 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🍽️ Meal Request System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+A lightweight internal web application that lets employees request meals (Breakfast, Lunch, Dinner) within configurable daily cutoff times. Admins manage users via Excel import/export, and a Super Admin controls global system settings such as cutoff times and advance-booking windows.
+
+Built with **Laravel 12**, **Bootstrap 5**, and **Laravel Excel**.
+
+<p align="left">
+  <img src="https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white" alt="Laravel 12">
+  <img src="https://img.shields.io/badge/PHP-8.2%2B-777BB4?logo=php&logoColor=white" alt="PHP 8.2+">
+  <img src="https://img.shields.io/badge/Bootstrap-5-7952B3?logo=bootstrap&logoColor=white" alt="Bootstrap 5">
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT">
 </p>
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✨ Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Role-based access** — `super_admin`, `admin`, and `user` roles with route-level middleware enforcement.
+- **Time-aware meal requests** — meal options are automatically disabled once their cutoff time passes.
+- **Advance booking** — users can request meals for today plus a configurable number of days ahead.
+- **Excel-powered user management** — bulk import users from a spreadsheet and download a ready-made template.
+- **Reports & exports** — admins view request reports and download them as Excel files.
+- **Configurable settings** — Super Admins manage cutoff times, advance-request days, and can disable the request form with a custom message.
+- **Secure auth** — username/password login with bcrypt password hashing and active/inactive account control.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🧰 Tech Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+| Layer | Technology |
+|---|---|
+| Framework | Laravel 12 (PHP 8.2+) |
+| Frontend | Blade + Bootstrap 5 |
+| Database | MySQL / SQLite (default) |
+| Excel | [maatwebsite/excel](https://laravel-excel.com) 3.x |
+| Auth | Session-based, bcrypt hashing |
+| Build tooling | Vite + Tailwind (asset pipeline) |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 👥 User Roles
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Role | Capabilities |
+|---|---|
+| `super_admin` | Everything below **+** global system settings |
+| `admin` | User management, Excel import/export, reports |
+| `user` | View the request form and submit meal requests |
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## ⏰ Meal Cutoff Rules
 
-## Contributing
+| Meal | Default Cutoff | Relative To |
+|---|---|---|
+| Breakfast | 11:59 PM | Previous day |
+| Lunch | 10:00 AM | Same day |
+| Dinner | 4:00 PM | Same day |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- When the current time exceeds a meal's cutoff, that option is disabled for the day.
+- Users can book up to **N days in advance** (`advance_request_days`, default `2`).
+- All cutoff times and the advance window are editable in **Admin → Settings**.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🚀 Getting Started
 
-## Security Vulnerabilities
+### Prerequisites
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- PHP **8.2+**
+- [Composer](https://getcomposer.org/)
+- Node.js **18+** & npm
+- A database (SQLite works out of the box; MySQL supported)
 
-## License
+### Installation
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+# 1. Clone the repository
+git clone https://github.com/svdilshan/meal_request.git
+cd meal_request
+
+# 2. Install PHP & JS dependencies
+composer install
+npm install
+
+# 3. Set up the environment file
+cp .env.example .env
+php artisan key:generate
+
+# 4. (SQLite) create the database file — skip if using MySQL
+touch database/database.sqlite
+
+# 5. Run migrations and seed default data
+php artisan migrate --seed
+
+# 6. Build front-end assets
+npm run build      # or `npm run dev` for hot reloading
+
+# 7. Start the development server
+php artisan serve
+```
+
+The app will be available at **http://localhost:8000**.
+
+### Using MySQL instead of SQLite
+
+Update your `.env`:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=meal_request
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Then run `php artisan migrate --seed`.
+
+---
+
+## 🔑 Default Login
+
+Seeding creates a Super Admin account:
+
+| Username | Password | Role |
+|---|---|---|
+| `admin` | `Password123` | `super_admin` |
+
+> ⚠️ **Change this password immediately** in any non-local environment.
+
+---
+
+## 🗄️ Database Overview
+
+| Table | Purpose |
+|---|---|
+| `users` | Accounts with `epf_no`, `username`, `role`, `is_active` |
+| `meal_types` | Configurable meal options (Breakfast, Lunch, Dinner, …) |
+| `meal_requests` | One row per user/meal/date (unique constraint prevents duplicates) |
+| `settings` | Key/value store for cutoff times, advance days, and form state |
+
+Default seeders populate meal types, baseline settings, and the Super Admin user.
+
+---
+
+## 🛣️ Key Routes
+
+| Method | URI | Access | Description |
+|---|---|---|---|
+| `GET` | `/login` | Public | Login form |
+| `GET/POST` | `/request` | Authenticated | View & submit meal requests |
+| `GET` | `/admin/dashboard` | admin, super_admin | Summary dashboard |
+| `GET/POST` | `/admin/users` | admin, super_admin | Manage & import users |
+| `GET` | `/admin/users/template` | admin, super_admin | Download import template |
+| `GET` | `/admin/reports` | admin, super_admin | View reports |
+| `GET` | `/admin/reports/download` | admin, super_admin | Export reports to Excel |
+| `GET/POST` | `/admin/settings` | super_admin | Manage global settings |
+
+---
+
+## 📁 Project Structure
+
+```
+app/
+├── Exports/          # Excel report exports
+├── Helpers/          # MealCutoffHelper (cutoff logic)
+├── Http/
+│   ├── Controllers/  # Auth, MealRequest, Admin (Users, Reports, Settings)
+│   └── Middleware/   # CheckRole (role-based access)
+├── Imports/          # UsersImport (Excel user import)
+└── Models/           # User, MealType, MealRequest, Setting
+database/
+├── migrations/       # Schema
+└── seeders/          # MealType, Settings, SuperAdmin
+resources/views/      # Blade templates (Bootstrap 5)
+routes/web.php        # Application routes
+```
+
+A full functional specification is available in [project-spec.md](project-spec.md).
+
+---
+
+## 🧪 Testing
+
+```bash
+php artisan test
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please open an issue to discuss significant changes before submitting a pull request.
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/my-feature`)
+3. Commit your changes
+4. Push and open a pull request
+
+---
+
+## 📄 License
+
+This project is open-source software licensed under the [MIT License](LICENSE).
