@@ -1,0 +1,51 @@
+# Dependencies
+/node_modules
+/vendor
+/auth.json
+
+# Environment
+.env
+.env.backup
+.env.production
+.env.*.local
+
+# Build / compiled assets
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/bootstrap/cache/*.php
+
+# Logs
+*.log
+/storage/logs/*
+
+# Caches
+.phpunit.result.cache
+/.phpunit.cache
+.phpactor.json
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+
+# IDE / editors
+/.idea
+/.vscode
+/.fleet
+/.nova
+/.zed
+/.phpstorm.meta.php
+_ide_helper.php
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Homestead
+Homestead.json
+Homestead.yaml
+
+# Local scratch / temp
+/scratch
